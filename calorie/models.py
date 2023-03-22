@@ -27,7 +27,8 @@ class Category(models.Model):
 
 class Food(models.Model):
     name = models.CharField(max_length=200)
-    category = models.ManyToManyField(Category)
+    # category = models.ManyToManyField(Category)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
     carbohydrate = models.FloatField()
     fats = models.FloatField()
     protein = models.FloatField()
@@ -39,5 +40,5 @@ class Food(models.Model):
 
 
 class UserFood(models.Model):
-    customer = models.ManyToManyField(Customer, blank=True)
-    food = models.ManyToManyField(Food)
+    customer = models.ForeignKey(Customer, blank=True, on_delete=models.CASCADE)
+    food = models.ForeignKey(Food, on_delete=models.CASCADE)

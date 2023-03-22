@@ -1,4 +1,7 @@
 from django.shortcuts import render
+from django.urls import reverse_lazy
+from django.views.generic import CreateView
+
 from .forms import *
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
@@ -12,25 +15,50 @@ def home(request):
     return HttpResponse('<h1>Calorie Calculator</h1>')
 
 
-@login_required(login_url='login')
-@admin_only
+# @login_required(login_url='login')
+# @admin_only
 def home(request):
-    breakfast = Category.objects.filter(name='breakfast')[0].fooditem_set.all()[:5]
-    lunch = Category.objects.filter(name='lunch')[0].fooditem_set.all()[:5]
-    dinner = Category.objects.filter(name='dinner')[0].fooditem_set.all()[:5]
-    snacks = Category.objects.filter(name='snacks')[0].fooditem_set.all()[:5]
-    customers = Customer.objects.all()
-    context = {'breakfast': breakfast,
-               'lunch': lunch,
-               'dinner': dinner,
-               'snacks': snacks,
-               'customers': customers,
-               }
-    return render(request,'base.html',context)
+    food = Food.objects.all()
+    lunch = []
+    snacks = []
+    breakfast = []
+    dinner = []
+    customers = []
+    for f in food:
+        if f.category.name == "snacks":
+            snacks.append(f)
+        elif f.category.name == "lunch":
+            lunch.append(f)
+        elif f.category.name == "dinner":
+            dinner.append(f)
+        elif f.category.name == "breakfast":
+            breakfast.append(f)
+        else:
+            customers.append(f)
 
 
-@login_required(login_url='login')
-@allowed_users(allowed_roles=['admin'])
+    context = {
+        'breakfast': breakfast,
+        'lunch': lunch,
+        'dinner': dinner,
+        'snacks': snacks,
+        'customers': customers,
+    }
+    # lunch = Category.objects.filter(name='lunch')[0].fooditem_set.all()
+    # dinner = Category.objects.filter(name='dinner')[0].fooditem_set.all()
+    # snacks = Category.objects.filter(name='snacks')[0].fooditem_set.all()
+    # customers = Customer.objects.all()
+    # context = {'breakfast': breakfast,
+    #            'lunch': lunch,
+    #            'dinner': dinner,
+    #            'snacks': snacks,
+    #            'customers': customers,
+    #            }
+    return render(request, 'calorie/fooditem.html', context)
+
+
+# @login_required(login_url='login')
+# @allowed_users(allowed_roles=['admin'])
 def fooditem(request):
     breakfast = Category.objects.filter(name='breakfast')[0].fooditem_set.all()
     b_cnt = breakfast.count()
@@ -49,12 +77,12 @@ def fooditem(request):
                'dinner': dinner,
                'snacks': snacks,
                }
-    return render(request,'fooditem.html',context)
+    return render(request, 'calorie/fooditem.html', context)
 
 
-@login_required(login_url='login')
-@allowed_users(allowed_roles=['admin'])
-def createfooditem(request):
+# @login_required(login_url='login')
+# @allowed_users(allowed_roles=['admin'])
+def create_food_item(request):
     form = FoodForm()
     if request.method == 'POST':
         form = FoodForm(request.POST)
@@ -62,13 +90,13 @@ def createfooditem(request):
             form.save()
             return redirect('/')
     context = {'form': form}
-    return render(request, 'createfooditem.html', context)
+    return render(request, 'calorie/createfooditem.html', context)
 
 
-@unauthorized_user
-def registerPage(request):
+# @unauthorized_user
+def register_page(request):
     form = CreateUserForm()
-    if request.method=='POST':
+    if request.method == 'post':
         form = CreateUserForm(request.POST)
         if form.is_valid():
             user = form.save()
@@ -76,39 +104,39 @@ def registerPage(request):
             group = Group.objects.get(name='user')
             user.groups.add(group)
             email = form.cleaned_data.get('email')
-            Customer.objects.create(user=user, name=username,email=email)
+            Customer.objects.create(user=user, name=username, email=email)
             messages.success(request,'Account created for '+username)
             return redirect('login')
-    context={'form': form}
-    return render(request, 'register.html', context)
+    context = {'form': form}
+    return render(request, 'calorie/register.html', context)
 
 
-@unauthorized_user
-def loginPage(request):
-    if request.method == 'POST':
+# @unauthorized_user
+def login_page(request):
+    if request.method == 'post':
         username = request.POST.get('username')
         password = request.POST.get('password')
-        user=authenticate(request, username=username, password=password)
+        user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
             return redirect('home')
         else:
             messages.info(request, 'username or password is invalid')
-    return render(request, 'login.html')
+    return render(request, 'calorie/login.html')
 
 
 
-@login_required(login_url='login')
-def logoutUser(request):
+# @login_required(login_url='login')
+def logout_user(request):
     logout(request)
     return redirect('login')
 
 
-def userPage(request):
+def user_page(request):
     user = request.user
     cust = user.customer
     food_items = Food.objects.filter()
-    my_filter = fooditemFilter(request.GET, queryset= food_items)
+    my_filter = FoodFilter(request.GET, queryset=food_items)
     food_items = my_filter.qs
     total = UserFood.objects.all()
     my_food_items = total.filter(customer=cust)
@@ -125,17 +153,18 @@ def userPage(request):
         total_calories += foods.calorie
     calorie_left = 2000 - total_calories
     context = {'calorie_left': calorie_left, 'total_calories': total_calories, 'cnt': cnt, 'food_list': final_food_items, 'food_item': food_items, 'my_filter': my_filter}
-    return render(request, 'user.html', context)
+    return render(request, 'calorie/user.html', context)
 
 
-def addFooditem(request):
+def add_food_item(request):
     user = request.user
     cust = user.customer
-    if request.method == "POST":
+    if request.method == "post":
         form = AddUserFood(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('/')
+            return redirect('home')
     form = AddUserFood()
-    context={'form': form}
-    return render(request, 'addUserFooditem.html', context)
+    context = {'form': form}
+    return render(request, 'calorie/adduserfooditem.html', context)
+

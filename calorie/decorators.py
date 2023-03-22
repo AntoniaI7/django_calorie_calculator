@@ -6,7 +6,7 @@ def unauthorized_user(view_func):
         if request.user.is_authenticated:
             return redirect('home')
         else:
-            return view_func(request,*args,**kwargs)
+            return view_func(request, *args, **kwargs)
     return wrapper_func
 
 def allowed_users(allowed_roles=[]):
@@ -29,6 +29,8 @@ def admin_only(view_func):
             group = request.user.groups.all()[0].name
         if group == 'user':
             return redirect('userPage')
-        if group == 'admin':
+        elif group == 'admin':
             return view_func(request, *args, **kwargs)
+        else:
+            return HttpResponse("<h1>You are not allowed to access this page</h1>")
     return wrapper_func
