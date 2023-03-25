@@ -9,10 +9,23 @@ class FoodForm(ModelForm):
         model = Food
         fields = "__all__"
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+
+        self.fields['name'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Please enter the food name'})
+        self.fields['carbohydrate'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Please enter the total of carbohydrates'})
+        self.fields['fats'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Please enter the total of fats'})
+        self.fields['protein'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Please enter the total of proteins'})
+
+
+
 class AddUserFood(ModelForm):
     class Meta:
         model = UserFood
         fields = "__all__"
+
+
 
 class CreateUserForm(UserCreationForm):
     class Meta:
@@ -29,10 +42,13 @@ class CreateUserForm(UserCreationForm):
         self.fields['password1'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Please enter your password'})
         self.fields['password2'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Please enter your password confirmation'})
 
+
 class FoodFilter(django_filters.FilterSet):
     class Meta:
         model = Food
-        fields = ['name']
+        fields = ['name', 'category', 'carbohydrate', 'fats', 'protein', 'calorie', 'quantity']
+
+
 
 class AuthenticationNewForm(AuthenticationForm):
     def __init__(self, *args, **kwargs):

@@ -3,12 +3,16 @@
 
 {% block content %}
     <div class="flex-box-row">
+    <h1>List of foods</h1>
         <br>
         <br>
-        <h5 id="heading">Breakfast</h5>
-        <h6>Total options:{{bcnt}}</h6>
-            <a class="btn btn-primary  btn-sm btn-block" href="{% url 'create_food_item' %}">Add more options</a>
-            <table class="table table-sm">
+        <h4 id="heading">Breakfast</h4>
+{#        <h6>Total options:{{bcnt}}</h6>#}
+            <a class="btn btn-success  btn-sm" href="{% url 'create_food_item' %}">Create breakfast</a>
+            <table class="table table-succes table-success table-hover table-bordered">
+
+    <br>
+    <br>
                 <tr>
                     <th>Name</th>
                     <th>Carbs</th>
@@ -24,6 +28,12 @@
                     <td>{{items.fats}} </td>
                     <td>{{items.protein}} </td>
                     <td>{{items.calorie}} </td>
+                    <td>
+                        <form method="post"> # butonul nu apeleaza functia interna daca nu este bagat intr-un form
+                            {% csrf_token %}
+                            <input type="submit" name="addToMyListButton" value={{ items.pk }}>
+                        </form>
+                    </td>
                     </tr>
                     
                 {% endfor %}
@@ -33,10 +43,13 @@
 
     <div class="flex-box-row">
         <h4 id="heading">Lunch</h4>
-        <h5>Total options:{{lcnt}}</h5>
+{#        <h5>Total options:{{lcnt}}</h5>#}
         
-            <a class="btn btn-primary  btn-sm btn-block" href="{% url 'create_food_item' %}">Add more options</a>
-            <table class="table table-sm">
+            <a class="btn btn-success  btn-sm" href="{% url 'create_food_item' %}">Create lunch</a>
+            <table class="table table-succes table-success table-hover table-bordered">
+
+    <br>
+    <br>
                 <tr>
                     <th>Name</th>
                     <th>Carbs</th>
@@ -61,10 +74,13 @@
     <br>
 
     <div class="flex-box-row">
-        <h4 id="heading">Snacks</h4>
-        <h5>Total options:{{scnt}}</h5>
-            <a class="btn btn-primary  btn-sm btn-block" href="{% url 'create_food_item' %}">Add more options</a>
-            <table class="table table-sm">
+        <h4 id="heading ">Snacks</h4>
+
+{#        <h5>Total options:{{scnt}}</h5>#}
+            <a class="btn btn-success  btn-sm" href="{% url 'create_food_item' %}">Create snack</a>
+    <br>
+    <br>
+            <table class="table table-succes table-success table-hover table-bordered">
                 <tr>
                     <th>Name</th>
                     <th>Carbs</th>
@@ -89,9 +105,12 @@
 
     <div class="flex-box-row">
         <h4 id="heading">Dinner</h4>
-        <h5>Total options:{{dcnt}}</h5>
-            <a class="btn btn-primary  btn-sm btn-block" href="{% url 'create_food_item' %}">Add more options</a>
-            <table class="table table-sm">
+{#        <h5>Total options:{{dcnt}}</h5>#}
+            <a class="btn btn-success  btn-sm" href="{% url 'create_food_item' %}">Create dinner</a>
+            <table class="table table-succes table-success table-hover table-bordered">
+
+    <br>
+    <br>
                 <tr>
                     <th>Name</th>
                     <th>Carbs</th>

@@ -1,0 +1,14 @@
+- make-up partea de add more options
+    - adauagre cripsy forms (https://www.youtube.com/watch?v=PJkV76KTZqk)
+
+- la finalul fiecarui grup, vrei sa iti aparat totalul nutrientilor
+
+- adaugam notiunea de zile
+        - modificare databse (models) sa adauge ziua automat in momentul
+        in care adaugam un food
+        - in partea de sus a paginii de home sa iti apara ziua curenta
+        - filtram datele si prezentam doar alimentele adauagte in ziua
+          afisata mai sus
+
+
+- implemntarea unui user management!

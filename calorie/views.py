@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
 
+from user_calc.models import FoodInADay
 from .forms import *
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
@@ -54,6 +55,18 @@ def home(request):
     #            'snacks': snacks,
     #            'customers': customers,
     #            }
+
+    # in felul de mai jos, putem identifica ce buton a fost apasat
+    # folosind doar numele lui ca si identificator.
+    # toate apasarile de butoane se afla in lista request.POST
+
+    if 'addToMyListButton' in request.POST:
+        primaryKeyOfFood = request.POST['addToMyListButton']
+        itemComplet = Food.objects.filter(pk=primaryKeyOfFood)
+        for item in itemComplet:
+            FoodInADay.objects.create(name=item.name)
+
+
     return render(request, 'calorie/fooditem.html', context)
 
 
