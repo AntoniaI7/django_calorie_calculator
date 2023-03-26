@@ -1,14 +1,14 @@
 {% extends 'base.html' %}
 {% block content %}
-<head> <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></head>
+{#<head> <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></head>#}
 <h3>Total number of items consumed today: {{cnt}}</h3>
 
 <div class="today">
 	<h2>Tracker</h2>
 	<div class="flex-box-row">
 		<h3>Calorie Limit: 2000</h3>
-		<h3>totalCalories consumed: {{totalCalories}}</h3>
-		<h3>Left: {{ CalorieLeft }}</h3>
+		<h3>totalCalories consumed: {{total_calories}}</h3>
+		<h3>Left: {{ calorie_left }}</h3>
 	</div>
 	
     <div class="card card-body">
@@ -31,7 +31,7 @@
             {% endfor %}
         </table>
 	</div>
-	<form action="{% url 'add_fod_item' %}" method="POST">
+	<form action="{% url 'add_food_item' %}" method="POST">
 		{%csrf_token%}
 		<button type="submit" class="btn btn-success">
 			<span class="glyphicon glyphicon-plus"></span>

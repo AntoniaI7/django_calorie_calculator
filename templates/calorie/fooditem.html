@@ -1,135 +1,146 @@
 {% extends 'base.html' %}
-{% load static%}
+{% load static %}
 
 {% block content %}
     <div class="flex-box-row">
-    <h1>List of foods</h1>
+        <h1>List of foods</h1>
         <br>
         <br>
         <h4 id="heading">Breakfast</h4>
-{#        <h6>Total options:{{bcnt}}</h6>#}
-            <a class="btn btn-success  btn-sm" href="{% url 'create_food_item' %}">Create breakfast</a>
-            <table class="table table-succes table-success table-hover table-bordered">
-
-    <br>
-    <br>
+        <h6>Total options:{{ bcnt }}</h6>
+        <a class="btn btn-success  btn-sm" href="{% url 'create_food_item' %}">Create breakfast</a>
+        <table class="table table-succes table-success table-hover table-bordered">
+            <br>
+            <br>
+            <tr>
+                <th>Name</th>
+                <th>Carbs</th>
+                <th>Fats</th>
+                <th>Protein</th>
+                <th>Calorie</th>
+                <th>Add food</th>
+            </tr>
+            {% for items in breakfast %}
                 <tr>
-                    <th>Name</th>
-                    <th>Carbs</th>
-                    <th>Fats</th>
-                    <th>Protein</th>
-                    <th>Calorie</th>
-                    
-                </tr>
-               {% for items in breakfast %}
-                <tr>
-                    <td>{{items.name}} </td>
-                    <td>{{items.carbohydrate}} </td>
-                    <td>{{items.fats}} </td>
-                    <td>{{items.protein}} </td>
-                    <td>{{items.calorie}} </td>
+                    <td>{{ items.name }} </td>
+                    <td>{{ items.carbohydrate }} </td>
+                    <td>{{ items.fats }} </td>
+                    <td>{{ items.protein }} </td>
+                    <td>{{ items.calorie }} </td>
                     <td>
-                        <form method="post"> # butonul nu apeleaza functia interna daca nu este bagat intr-un form
+                        {#                        butonul nu apeleaza functia interna daca nu este bagat intr-un form#}
+                        <form method="post">
                             {% csrf_token %}
                             <input type="submit" name="addToMyListButton" value={{ items.pk }}>
                         </form>
                     </td>
-                    </tr>
-                    
-                {% endfor %}
-            </table>
+                </tr>
+
+            {% endfor %}
+        </table>
     </div>
     <br>
-
     <div class="flex-box-row">
         <h4 id="heading">Lunch</h4>
-{#        <h5>Total options:{{lcnt}}</h5>#}
-        
-            <a class="btn btn-success  btn-sm" href="{% url 'create_food_item' %}">Create lunch</a>
-            <table class="table table-succes table-success table-hover table-bordered">
+        <h5>Total options:{{ lcnt }}</h5>
+        <a class="btn btn-success  btn-sm" href="{% url 'create_food_item' %}">Create lunch</a>
+        <table class="table table-succes table-success table-hover table-bordered">
+            <br>
+            <br>
+            <tr>
+                <th>Name</th>
+                <th>Carbs</th>
+                <th>Fats</th>
+                <th>Protein</th>
+                <th>Calorie</th>
+                <th>Add food</th>
 
-    <br>
-    <br>
+            </tr>
+            {% for items in lunch %}
                 <tr>
-                    <th>Name</th>
-                    <th>Carbs</th>
-                    <th>Fats</th>
-                    <th>Protein</th>
-                    <th>Calorie</th>
-                    
+                    <td>{{ items.name }} </td>
+                    <td>{{ items.carbohydrate }} </td>
+                    <td>{{ items.fats }} </td>
+                    <td>{{ items.protein }} </td>
+                    <td>{{ items.calorie }} </td>
+                    <td>
+                        <form method="post">
+                            {% csrf_token %}
+                            <input type="submit" name="addToMyListButton" value={{ items.pk }}>
+                        </form>
+                    </td>
                 </tr>
-               {% for items in lunch %}
-                <tr>
-                    <td>{{items.name}} </td>
-                    <td>{{items.carbohydrate}} </td>
-                    <td>{{items.fats}} </td>
-                    <td>{{items.protein}} </td>
-                    <td>{{items.calorie}} </td>
-                    </tr>
-                    
-                {% endfor %}
-            </table>
-       
+            {% endfor %}
+        </table>
     </div>
     <br>
-
     <div class="flex-box-row">
         <h4 id="heading ">Snacks</h4>
-
-{#        <h5>Total options:{{scnt}}</h5>#}
-            <a class="btn btn-success  btn-sm" href="{% url 'create_food_item' %}">Create snack</a>
-    <br>
-    <br>
-            <table class="table table-succes table-success table-hover table-bordered">
+        <h5>Total options:{{ scnt }}</h5>
+        <a class="btn btn-success  btn-sm" href="{% url 'create_food_item' %}">Create snack</a>
+        <br>
+        <br>
+        <table class="table table-succes table-success table-hover table-bordered">
+            <tr>
+                <th>Name</th>
+                <th>Carbs</th>
+                <th>Fats</th>
+                <th>Protein</th>
+                <th>Calorie</th>
+                <th>Add food</th>
+            </tr>
+            {% for items in snacks %}
                 <tr>
-                    <th>Name</th>
-                    <th>Carbs</th>
-                    <th>Fats</th>
-                    <th>Protein</th>
-                    <th>Calorie</th>
-                    
+                    <td>{{ items.name }} </td>
+                    <td>{{ items.carbohydrate }} </td>
+                    <td>{{ items.fats }} </td>
+                    <td>{{ items.protein }} </td>
+                    <td>{{ items.calorie }} </td>
+                    <td>
+                        <form method="post">
+                            {% csrf_token %}
+                            <input type="submit" name="addToMyListButton" value={{ items.pk }}>
+                        </form>
+                    </td>
                 </tr>
-               {% for items in snacks %}
-                <tr>
-                    <td>{{items.name}} </td>
-                    <td>{{items.carbohydrate}} </td>
-                    <td>{{items.fats}} </td>
-                    <td>{{items.protein}} </td>
-                    <td>{{items.calorie}} </td>
-                    </tr>
-                    
-                {% endfor %}
-            </table>
+
+            {% endfor %}
+        </table>
     </div>
     <br>
-
     <div class="flex-box-row">
         <h4 id="heading">Dinner</h4>
-{#        <h5>Total options:{{dcnt}}</h5>#}
-            <a class="btn btn-success  btn-sm" href="{% url 'create_food_item' %}">Create dinner</a>
-            <table class="table table-succes table-success table-hover table-bordered">
-
-    <br>
-    <br>
+        <h5>Total options:{{ dcnt }}</h5>
+        <a class="btn btn-success  btn-sm" href="{% url 'create_food_item' %}">Create dinner</a>
+        <table class="table table-succes table-success table-hover table-bordered">
+            <br>
+            <br>
+            <tr>
+                <th>Name</th>
+                <th>Carbs</th>
+                <th>Fats</th>
+                <th>Protein</th>
+                <th>Calorie</th>
+                <th>Add food</th>
+            </tr>
+            {% for items in dinner %}
                 <tr>
-                    <th>Name</th>
-                    <th>Carbs</th>
-                    <th>Fats</th>
-                    <th>Protein</th>
-                    <th>Calorie</th>
+                    <td>{{ items.name }} </td>
+                    <td>{{ items.carbohydrate }} </td>
+                    <td>{{ items.fats }} </td>
+                    <td>{{ items.protein }} </td>
+                    <td>{{ items.calorie }} </td>
+                    <td>
+                        <form method="post">
+                            {% csrf_token %}
+                            <input type="submit" name="addToMyListButton" value={{ items.pk }}>
+                        </form>
+                    </td>
                 </tr>
-               {% for items in dinner %}
-                <tr>
-                    <td>{{items.name}} </td>
-                    <td>{{items.carbohydrate}} </td>
-                    <td>{{items.fats}} </td>
-                    <td>{{items.protein}} </td>
-                    <td>{{items.calorie}} </td>
-                    </tr>
-                    
-                {% endfor %}
-            </table>
+
+            {% endfor %}
+        </table>
     </div>
     <br>
-</div>
+    </div>
 {% endblock %}

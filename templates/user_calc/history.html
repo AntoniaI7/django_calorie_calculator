@@ -5,17 +5,11 @@
     <div class="flex-box-row">
         <h1>How many calories I eat today:</h1>
         <br>
+        {% for day, food in full_history_with_date.items %}
 
-        <h2>Tracker</h2>
-        <div class="flex-box-row">
-            <h3>Calorie Limit: 2000</h3>
-            <h3>totalCalories consumed: {{ total_calories }}</h3>
-            <h3>Left: {{ calorie_left }}</h3>
-        </div>
+            <table class="table table-succes table-success table-hover table-bordered">
+            <h3>{{ day }}</h3>
 
-        <table class="table table-succes table-success table-hover table-bordered">
-            <br>
-            <br>
             <tr>
                 <th>Name</th>
                 <th>Carbs</th>
@@ -25,7 +19,7 @@
                 <th>Total</th>
 
             </tr>
-            {% for items in foods %}
+            {% for items in food %}
                 <tr>
                     <td>{{ items.name }} </td>
                     <td>{{ items.carbohydrate }} </td>
@@ -37,6 +31,9 @@
 
             {% endfor %}
         </table>
+        {% endfor %}
+
+
     </div>
     <br>
     </div>

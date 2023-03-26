@@ -1,8 +1,9 @@
 from django.shortcuts import render
+from django.template import context
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
 
-from user_calc.models import FoodInADay
+from user_calc.models import FoodInADay, History
 from .forms import *
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
@@ -14,6 +15,9 @@ from django.contrib.auth.models import Group
 
 def home(request):
     return HttpResponse('<h1>Calorie Calculator</h1>')
+
+def home_page(request):
+    return render(request, 'calorie/home_page.html')
 
 
 # @login_required(login_url='login')
@@ -64,8 +68,16 @@ def home(request):
         primaryKeyOfFood = request.POST['addToMyListButton']
         itemComplet = Food.objects.filter(pk=primaryKeyOfFood)
         for item in itemComplet:
-            FoodInADay.objects.create(name=item.name)
-
+            instance = FoodInADay.objects.create(
+                name=item.name,
+                category = item.category,
+                carbohydrate = item.carbohydrate,
+                fats = item.fats,
+                protein = item.protein,
+                calorie = item.calorie,
+                quantity = item.quantity,
+            )
+            History.objects.create(foodInADayId = instance)
 
     return render(request, 'calorie/fooditem.html', context)
 
@@ -73,25 +85,48 @@ def home(request):
 # @login_required(login_url='login')
 # @allowed_users(allowed_roles=['admin'])
 def fooditem(request):
-    breakfast = Category.objects.filter(name='breakfast')[0].fooditem_set.all()
-    b_cnt = breakfast.count()
-    lunch = Category.objects.filter(name='lunch')[0].fooditem_set.all()
-    l_cnt = lunch.count()
-    dinner = Category.objects.filter(name='dinner')[0].fooditem_set.all()
-    d_cnt = dinner.count()
-    snacks = Category.objects.filter(name='snacks')[0].fooditem_set.all()
-    s_cnt = snacks.count()
-    context = {'breakfast': breakfast,
-               'b_cnt': b_cnt,
-               'l_cnt': l_cnt,
-               's_cnt': s_cnt,
-               'd_cnt': d_cnt,
-               'lunch': lunch,
-               'dinner': dinner,
-               'snacks': snacks,
-               }
-    return render(request, 'calorie/fooditem.html', context)
+    food = Food.objects.all()
+    lunch = []
+    snacks = []
+    breakfast = []
+    dinner = []
+    customers = []
+    for f in food:
+        if f.category.name == "snacks":
+            snacks.append(f)
+        elif f.category.name == "lunch":
+            lunch.append(f)
+        elif f.category.name == "dinner":
+            dinner.append(f)
+        elif f.category.name == "breakfast":
+            breakfast.append(f)
+        else:
+            customers.append(f)
 
+    context = {
+        'breakfast': breakfast,
+        'lunch': lunch,
+        'dinner': dinner,
+        'snacks': snacks,
+        'customers': customers,
+    }
+
+    if 'addToMyListButton' in request.POST:
+        primaryKeyOfFood = request.POST['addToMyListButton']
+        itemComplet = Food.objects.filter(pk=primaryKeyOfFood)
+        for item in itemComplet:
+            FoodInADay.objects.create(
+                name=item.name,
+                category=item.category,
+                carbohydrate=item.carbohydrate,
+                fats=item.fats,
+                protein=item.protein,
+                calorie=item.calorie,
+                quantity=item.quantity,
+            )
+            #History.objects.crete(item)
+
+    return render(request, 'calorie/fooditem.html', context)
 
 # @login_required(login_url='login')
 # @allowed_users(allowed_roles=['admin'])
@@ -118,7 +153,7 @@ def register_page(request):
             user.groups.add(group)
             email = form.cleaned_data.get('email')
             Customer.objects.create(user=user, name=username, email=email)
-            messages.success(request,'Account created for '+username)
+            messages.success(request, 'Account created for ' +username)
             return redirect('login')
     context = {'form': form}
     return render(request, 'calorie/register.html', context)
@@ -164,8 +199,17 @@ def user_page(request):
     total_calories = 0
     for foods in final_food_items:
         total_calories += foods.calorie
+
     calorie_left = 2000 - total_calories
-    context = {'calorie_left': calorie_left, 'total_calories': total_calories, 'cnt': cnt, 'food_list': final_food_items, 'food_item': food_items, 'my_filter': my_filter}
+    context = {
+        'calorie_left': calorie_left,
+        'total_calories': total_calories,
+        'cnt': cnt,
+        'food_list': final_food_items,
+        'food_item': food_items,
+        'my_filter': my_filter
+    }
+
     return render(request, 'calorie/user.html', context)
 
 
@@ -176,7 +220,7 @@ def add_food_item(request):
         form = AddUserFood(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('home')
+            return redirect('food_item')
     form = AddUserFood()
     context = {'form': form}
     return render(request, 'calorie/adduserfooditem.html', context)
