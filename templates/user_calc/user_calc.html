@@ -3,14 +3,14 @@
 
 {% block content %}
     <div class="flex-box-row">
-        <h1>How many calories I eat today:</h1>
+        <h1>What did you eat and how many calories:</h1>
         <br>
 
         <h2>Tracker</h2>
         <div class="flex-box-row">
-            <h3>Calorie Limit: 2000</h3>
-            <h3>totalCalories consumed: {{ total_calories }}</h3>
-            <h3>Left: {{ calorie_left }}</h3>
+            <h3>Calorie limit: 2000 kcal</h3>
+            <h3>Total calories consumed: {{ total_calories_consumed}} kcal</h3>
+            <h3>Left: {{remaining_calories}} kcal</h3>
         </div>
 
         <table class="table table-succes table-success table-hover table-bordered">

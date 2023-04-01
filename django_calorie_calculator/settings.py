@@ -39,6 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'calorie',
     'user_calc',
+    'users',
+    'crispy_forms',
+    'crispy_bootstrap5',
+
 
 ]
 
@@ -127,9 +131,11 @@ STATICFILES_DIRS = (os.path.join(BASE_DIR), 'static')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-LOGIN_URL = '/login/'
-LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL = '/login/'
+LOGIN_URL = ''
+
+LOGIN_REDIRECT_URL = '/total_per_day/'
+
+LOGOUT_REDIRECT_URL = ''
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
@@ -138,3 +144,10 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'antonia.isvoranu@gmail.com'
 EMAIL_HOST_PASSWORD = 'Django12345'
+
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+
+CRISPY_TEMPLATE_PACK = "bootstrap5"
+
+

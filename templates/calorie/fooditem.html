@@ -18,7 +18,7 @@
                 <th>Fats</th>
                 <th>Protein</th>
                 <th>Calorie</th>
-                <th>Add food</th>
+                <th>Add item</th>
             </tr>
             {% for items in breakfast %}
                 <tr>
@@ -31,7 +31,8 @@
                         {#                        butonul nu apeleaza functia interna daca nu este bagat intr-un form#}
                         <form method="post">
                             {% csrf_token %}
-                            <input type="submit" name="addToMyListButton" value={{ items.pk }}>
+                            <button type="submit" class="btn btn-light" name="addToMyListButton" value={{ items.pk }}>+</button>
+{#                            <input style="color: transparent; width: 24px; height: 24px" type="submit" name="addToMyListButton" value={{ items.pk }}>#}
                         </form>
                     </td>
                 </tr>
@@ -53,7 +54,7 @@
                 <th>Fats</th>
                 <th>Protein</th>
                 <th>Calorie</th>
-                <th>Add food</th>
+                <th>Add item</th>
 
             </tr>
             {% for items in lunch %}
@@ -66,7 +67,7 @@
                     <td>
                         <form method="post">
                             {% csrf_token %}
-                            <input type="submit" name="addToMyListButton" value={{ items.pk }}>
+                            <button type="submit" class="btn btn-light" name="addToMyListButton" value={{ items.pk }}>+</button>
                         </form>
                     </td>
                 </tr>
@@ -87,7 +88,7 @@
                 <th>Fats</th>
                 <th>Protein</th>
                 <th>Calorie</th>
-                <th>Add food</th>
+                <th>Add item</th>
             </tr>
             {% for items in snacks %}
                 <tr>
@@ -99,7 +100,7 @@
                     <td>
                         <form method="post">
                             {% csrf_token %}
-                            <input type="submit" name="addToMyListButton" value={{ items.pk }}>
+                            <button type="submit" class="btn btn-light" name="addToMyListButton" value={{ items.pk }}>+</button>
                         </form>
                     </td>
                 </tr>
@@ -121,7 +122,7 @@
                 <th>Fats</th>
                 <th>Protein</th>
                 <th>Calorie</th>
-                <th>Add food</th>
+                <th>Add item</th>
             </tr>
             {% for items in dinner %}
                 <tr>
@@ -133,7 +134,7 @@
                     <td>
                         <form method="post">
                             {% csrf_token %}
-                            <input type="submit" name="addToMyListButton" value={{ items.pk }}>
+                            <button type="submit" class="btn btn-light" name="addToMyListButton" value={{ items.pk }}>+</button>
                         </form>
                     </td>
                 </tr>

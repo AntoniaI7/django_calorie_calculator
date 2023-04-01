@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load crispy_forms_tags %}
 
 {% block title %} Create food item  {% endblock %}
 
@@ -14,7 +14,7 @@
                     <form method="post">
                         {% csrf_token %}
                         <div class="card-body">
-                            {{ form.as_p }}
+                            {{ form | crispy }}
                         </div>
                         <div class="card-footer text-center d-grid gap-2">
                             <button type="submit" class="btn btn-outline-success ">Save</button>
