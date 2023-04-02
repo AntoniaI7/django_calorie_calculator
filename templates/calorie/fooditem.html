@@ -32,6 +32,8 @@
                         <form method="post">
                             {% csrf_token %}
                             <button type="submit" class="btn btn-light" name="addToMyListButton" value={{ items.pk }}>+</button>
+                            <button type="submit" class="btn btn-light" name="deleteFromMyListButton" value={{ items.pk }}>-</button>
+
 {#                            <input style="color: transparent; width: 24px; height: 24px" type="submit" name="addToMyListButton" value={{ items.pk }}>#}
                         </form>
                     </td>
@@ -68,6 +70,8 @@
                         <form method="post">
                             {% csrf_token %}
                             <button type="submit" class="btn btn-light" name="addToMyListButton" value={{ items.pk }}>+</button>
+                            <button type="submit" class="btn btn-light" name="deleteFromMyListButton" value={{ items.pk }}>-</button>
+
                         </form>
                     </td>
                 </tr>
@@ -101,6 +105,8 @@
                         <form method="post">
                             {% csrf_token %}
                             <button type="submit" class="btn btn-light" name="addToMyListButton" value={{ items.pk }}>+</button>
+                            <button type="submit" class="btn btn-light" name="deleteFromMyListButton" value={{ items.pk }}>-</button>
+
                         </form>
                     </td>
                 </tr>
@@ -135,6 +141,8 @@
                         <form method="post">
                             {% csrf_token %}
                             <button type="submit" class="btn btn-light" name="addToMyListButton" value={{ items.pk }}>+</button>
+                            <button type="submit" class="btn btn-light" name="deleteFromMyListButton" value={{ items.pk }}>-</button>
+
                         </form>
                     </td>
                 </tr>

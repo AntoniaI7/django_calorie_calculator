@@ -79,6 +79,31 @@ def home(request):
             )
             History.objects.create(foodInADayId = instance)
 
+    if 'deleteFromMyListButton' in request.POST:
+        primaryKeyOfFood = request.POST['deleteFromMyListButton']
+        FoodInADay.objects.filter(pk=primaryKeyOfFood).delete()
+
+        itemComplet = Food.objects.filter(pk=primaryKeyOfFood)[0]
+        if itemComplet.category.name == "snacks":
+            for f in context["snacks"]:
+                if f.name == itemComplet.name:
+                    context["snacks"].remove(f)
+
+        if itemComplet.category.name == "lunch":
+            for f in context["lunch"]:
+                if f.name == itemComplet.name:
+                    context["lunch"].remove(f)
+
+        if itemComplet.category.name == "dinner":
+            for f in context["dinner"]:
+                if f.name == itemComplet.name:
+                    context["dinner"].remove(f)
+
+        if itemComplet.category.name == "breakfast":
+            for f in context["breakfast"]:
+                if f.name == itemComplet.name:
+                    context["breakfast"].remove(f)
+
     return render(request, 'calorie/fooditem.html', context)
 
 
@@ -124,6 +149,17 @@ def fooditem(request):
                 calorie=item.calorie,
                 quantity=item.quantity,
             )
+
+    if 'deleteFromMyListButton' in request.POST:
+        primaryKeyOfFood = request.POST['deleteFromMyListButton']
+        FoodInADay.objects.filter(pk=primaryKeyOfFood).delete()
+
+        itemComplet = Food.objects.filter(pk=primaryKeyOfFood)[0]
+        if itemComplet.category == "snack":
+            for f in context["snack"]:
+                if f.name == itemComplet.name:
+                    context["snack"].remove(f)
+
             #History.objects.crete(item)
 
     return render(request, 'calorie/fooditem.html', context)
@@ -136,7 +172,9 @@ def create_food_item(request):
         form = FoodForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('/')
+            form = FoodForm()
+            context = {'form': form}
+            return render(request, 'calorie/createfooditem.html', context)
     context = {'form': form}
     return render(request, 'calorie/createfooditem.html', context)
 
